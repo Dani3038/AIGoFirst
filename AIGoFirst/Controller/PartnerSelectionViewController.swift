@@ -46,6 +46,15 @@ enum ConfessionPartner: CaseIterable {
         case .pastor: return "Pastor"
         }
     }
+    
+    var goodImageName: String { // good 버전 이미지 이름
+        switch self {
+        case .priest: return "Priest_good"
+        case .nun: return "Nun_good"
+        case .monk: return "Monk_good"
+        case .pastor: return "Pastor_good"
+        }
+    }
 
     var guideText: String {
         switch self {

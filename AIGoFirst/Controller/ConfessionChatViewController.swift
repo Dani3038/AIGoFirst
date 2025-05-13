@@ -1,5 +1,10 @@
 import UIKit
 
+// ChatEndViewController에서 정의한 Delegate 프로토콜을 import하거나 여기에 복사합니다.
+// 만약 ChatEndViewController.swift 파일에 정의했다면 해당 파일이 프로젝트에 포함되어 있어야 합니다.
+// protocol ChatEndViewControllerDelegate: AnyObject { ... }
+
+
 class ConfessionChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     private let partner: ConfessionPartner
     private var messages: [(String, Bool)] = [] // (메시지, isUser)
@@ -7,6 +12,7 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - UI
     private let partnerImageView = UIImageView()
 
+    // 파트너 이름 라벨 - 폰트 크기 18 볼드체
     private let partnerNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18) // 18 bold
@@ -42,14 +48,19 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
         // viewDidLoad에서 파트너 이름을 설정합니다. (Label 정의 시 설정해도 무방)
         partnerNameLabel.text = partner.name
 
-        // 네비게이션 바에 뒤로가기 버튼의 타이틀을 숨깁니다.
+        // 네비게이션 바 설정
+        // 뒤로가기 버튼의 타이틀을 숨깁니다. (화살표만 표시)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
-        // 채팅 화면 제목 설정 (선택 사항)
-        navigationItem.title = "" // 또는 "채팅" 등으로 설정 가능
+        // "끝내기" 버튼을 네비게이션 바 오른쪽에 추가
+        let endButton = UIBarButtonItem(title: "끝내기", style: .plain, target: self, action: #selector(showEndScreen)) // 액션 함수 변경
+        navigationItem.rightBarButtonItem = endButton
+
+        // 채팅 화면 제목 설정 (선택 사항) - 네비게이션 바 중앙에 표시
+        navigationItem.title = "" // 파트너 헤더가 별도로 있으므로 비워두거나 다르게 설정
     }
 
-    // UI 요소들을 뷰에 추가하는 함수
+    // MARK: - Setup UI elements (Helper function)
     private func setupUI() {
          // Add subviews to the main view
          view.addSubview(partnerImageView)
@@ -107,6 +118,7 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
         let placeholderColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 199/255.0, alpha: 1.0)
         // attributedPlaceholder를 사용하여 플레이스홀더 색상 적용
         inputField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [.foregroundColor: placeholderColor])
+        // 만약 기존 코드에 inputField.placeholder = "..." 라인이 있다면 제거해주세요.
 
 
         sendButton.setTitle("전송", for: .normal) // 전송 버튼 타이틀
@@ -201,5 +213,52 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         sendTapped()
         return true
+    }
+
+    // MARK: - "끝내기" 버튼 액션
+    @objc private func showEndScreen() {
+        // ChatEndViewController 인스턴스 생성
+        let endVC = ChatEndViewController(partner: self.partner)
+        // ChatEndViewController의 delegate를 현재 뷰 컨트롤러(self)로 설정
+        endVC.delegate = self
+
+        // ChatEndViewController를 모달로 띄웁니다.
+        // .fullScreen 스타일은 뒤에 있는 뷰 컨트롤러를 완전히 가립니다.
+        endVC.modalPresentationStyle = .fullScreen
+        present(endVC, animated: true, completion: nil)
+    }
+}
+
+// MARK: - ChatEndViewControllerDelegate 구현
+// ConfessionChatViewController가 ChatEndViewController의 delegate 역할을 수행합니다.
+extension ConfessionChatViewController: ChatEndViewControllerDelegate {
+
+    // "조금 더 이야기 나누기" 버튼이 눌렸을 때 호출
+    func chatMoreRequested(for partner: ConfessionPartner) {
+        print("\(partner.name)와 조금 더 이야기 나누기 요청됨")
+        // ChatEndViewController는 이미 자체적으로 dismiss 됩니다.
+        // 여기서는 필요하다면 현재 채팅 상태를 유지하거나 초기화하는 로직을 추가할 수 있습니다.
+        // (예: messages = []; tableView.reloadData();)
+        // 사용자는 ChatEndViewController가 닫히고 나면 현재 채팅 화면을 보게 됩니다.
+    }
+
+    // "기록 삭제하기" 버튼이 눌렸을 때 호출
+    func deleteRecordRequested(for partner: ConfessionPartner) {
+        print("\(partner.name)와 대화 기록 삭제 요청됨")
+        // ChatEndViewController는 이미 자체적으로 dismiss 됩니다.
+        // 현재 채팅 화면 (ConfessionChatViewController)을 네비게이션 스택에서 제거하여
+        // 이전 화면 (파트너 선택 화면)으로 돌아갑니다.
+        navigationController?.popViewController(animated: true)
+
+        // TODO: 실제 대화 기록 삭제 로직을 여기에 추가하세요.
+    }
+
+    // (추가 예시) 메인 화면으로 돌아가는 액션이 있다면
+    func backToMainRequested() {
+         print("메인 화면으로 돌아가기 요청됨")
+         // ChatEndViewController는 자체적으로 dismiss 됩니다.
+         // 현재 채팅 화면을 포함한 네비게이션 스택의 모든 뷰 컨트롤러를 제거하고
+         // 루트 뷰 컨트롤러 (메인 화면)으로 돌아갑니다.
+         navigationController?.popToRootViewController(animated: true)
     }
 }
