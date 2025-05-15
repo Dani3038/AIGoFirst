@@ -1,6 +1,6 @@
 import UIKit
 
-// Hex 색상 문자열을 UIColor로 변환하는 헬퍼 함수 (Int(String, radix:) 사용) - 이전 수정 내용 유지
+// Hex 색상 문자열을 UIColor로 변환하는 헬퍼 함수 (Int(String, radix:) 사용)
 func hexStringToUIColor (hex:String) -> UIColor {
     var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
@@ -25,7 +25,7 @@ func hexStringToUIColor (hex:String) -> UIColor {
     )
 }
 
-// ConfessionPartner enum 정의 - 이전 수정 내용 유지 (backgroundColor 추가 등)
+// ConfessionPartner enum 정의
 enum ConfessionPartner: CaseIterable {
     case priest, nun, monk, pastor
 
@@ -47,7 +47,7 @@ enum ConfessionPartner: CaseIterable {
         }
     }
     
-    var goodImageName: String { // good 버전 이미지 이름
+    var goodImageName: String {
         switch self {
         case .priest: return "Priest_good"
         case .nun: return "Nun_good"
@@ -92,7 +92,7 @@ class PartnerSelectionViewController: UIViewController {
     private let guideLabel: UILabel = {
         let label = UILabel()
         label.text = "오늘의 고해성사 파트너를\n선택해 주세요" // 초기 텍스트
-        // 폰트 크기 20, 볼드체로 수정 (최신 요청 반영)
+        // 폰트 크기 20, 볼드체
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -203,7 +203,7 @@ class PartnerSelectionViewController: UIViewController {
             imageView.leadingAnchor.constraint(equalTo: btn.leadingAnchor, constant: 16),
             imageView.trailingAnchor.constraint(equalTo: btn.trailingAnchor, constant: -16),
 
-            // 이미지 뷰의 가로세로 비율 제약 추가 (1:1 비율) - 이미지 뷰 프레임 크기를 일관되게 만듦
+            // 이미지 뷰의 가로세로 비율 제약 추가 (1:1 비율)
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0),
 
             // 이름 라벨 제약: 이미지 뷰 바로 아래에 8pt 간격, 버튼 좌우 전체 너비, 버튼 하단에서 12pt 위

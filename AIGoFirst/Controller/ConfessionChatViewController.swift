@@ -42,7 +42,7 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
         setupInputBar() // 입력 바 설정 (플레이스홀더 색상 수정 포함)
         setupLayout() // 레이아웃 제약 설정
 
-        // viewDidLoad에서 파트너 이름을 설정합니다. (Label 정의 시 설정해도 무방)
+        // viewDidLoad에서 파트너 이름을 설정
         partnerNameLabel.text = partner.name
 
         // 네비게이션 바 설정
@@ -74,7 +74,7 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
 
     private func setupPartnerHeader() {
         // 파트너 이름 라벨 설정
-        partnerNameLabel.text = partner.name // 이름 설정 (viewDidLoad에서도 설정 가능)
+        partnerNameLabel.text = partner.name // 이름 설정
         partnerNameLabel.textColor = .white // 텍스트 색상
         partnerNameLabel.textAlignment = .center
         // 뷰에 추가는 setupUI에서 수행
@@ -97,7 +97,7 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
         inputField.backgroundColor = .clear // 입력 필드 배경색 투명
         inputField.textColor = .white // 입력 필드 입력 텍스트 색상
         inputField.font = UIFont.systemFont(ofSize: 16) // 입력 필드 입력 텍스트 폰트
-        inputField.delegate = self // 델리게이트 설정 (키보드 리턴 처리 등)
+        inputField.delegate = self // 델리게이트 설정
 
         // 플레이스홀더 텍스트와 색상 설정
         let placeholderText = "고민을 입력하세요..."
@@ -105,7 +105,6 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
         let placeholderColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 199/255.0, alpha: 1.0)
         // attributedPlaceholder를 사용하여 플레이스홀더 색상 적용
         inputField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [.foregroundColor: placeholderColor])
-        // 만약 기존 코드에 inputField.placeholder = "..." 라인이 있다면 제거해주세요.
 
 
         sendButton.setTitle("전송", for: .normal) // 전송 버튼 타이틀
@@ -163,7 +162,7 @@ class ConfessionChatViewController: UIViewController, UITableViewDataSource, UIT
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let (msg, isUser) = messages[indexPath.row]
 
-        // 메시지 텍스트 설정 (폰트 크기/볼드체는 여기서 변경하지 않음 - 기본 셀 스타일 사용)
+        // 메시지 텍스트 설정
         cell.textLabel?.text = msg
         cell.textLabel?.textColor = isUser ? .systemPurple : .white
         cell.textLabel?.textAlignment = isUser ? .right : .left
@@ -230,10 +229,9 @@ extension ConfessionChatViewController: ChatEndViewControllerDelegate {
         print("\(partner.name)와 대화 기록 삭제 요청됨 (첫 화면으로 이동)")
         navigationController?.popToRootViewController(animated: true) // 수정된 부분
 
-        // TODO: 실제 대화 기록 삭제 로직을 여기에 추가하세요.
+        // TODO: 실제 대화 기록 삭제 로직을 여기에 추가할 예정
     }
 
-    // (추가 예시) 메인 화면으로 돌아가는 액션이 있다면
     func backToMainRequested() {
          print("메인 화면으로 돌아가기 요청됨")
          navigationController?.popToRootViewController(animated: true)
