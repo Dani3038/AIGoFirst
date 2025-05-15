@@ -178,7 +178,7 @@ class PartnerSelectionViewController: UIViewController {
         let btn = UIButton(type: .custom)
         btn.tag = index
         btn.layer.cornerRadius = 12
-        btn.layer.borderWidth = 2
+        btn.layer.borderWidth = 3
         btn.layer.borderColor = UIColor.clear.cgColor
         btn.backgroundColor = partner.backgroundColor // 파트너별 배경색 적용
 
