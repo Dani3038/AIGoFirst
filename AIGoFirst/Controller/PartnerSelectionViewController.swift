@@ -27,54 +27,54 @@ func hexStringToUIColor (hex:String) -> UIColor {
 
 // ConfessionPartner enum 정의
 enum ConfessionPartner: CaseIterable {
-    case priest, nun, monk, pastor
+    case girl, nun, monk, boy
 
     var name: String {
         switch self {
-        case .priest: return "신부님"
+        case .girl: return "내 친구"
         case .nun: return "수녀님"
         case .monk: return "스님"
-        case .pastor: return "목사님"
+        case .boy: return "내 친구"
         }
     }
 
     var imageName: String {
         switch self {
-        case .priest: return "Priest"
+        case .girl: return "girl"
         case .nun: return "Nun"
         case .monk: return "Monk"
-        case .pastor: return "Pastor"
+        case .boy: return "boy"
         }
     }
     
     var goodImageName: String {
         switch self {
-        case .priest: return "Priest_good"
+        case .girl: return "girl_good"
         case .nun: return "Nun_good"
         case .monk: return "Monk_good"
-        case .pastor: return "Pastor_good"
+        case .boy: return "boy_good"
         }
     }
 
     var guideText: String {
         switch self {
-        case .priest:
-            return "깊은 지혜로 명쾌하게 해답을 주시는\n신부님께 고민을 털어놓아보세요!"
+        case .girl:
+            return "친한 친구에게 털어놓듯 편하게\n마음 속 고민을 털어놓아보세요!"
         case .nun:
             return "편안하게 기대어 위로받고 싶을 때\n수녀님께 고민을 털어놓는건 어때요?"
         case .monk:
             return "복잡한 생각들 속에서 길을 잃었다면?\n스님과 대화하고 평온을 찾아보아요!"
-        case .pastor:
-            return "따뜻한 위로와 지지가 필요하다면?\n목사님과 함께 마음을 나누어 보아요!"
+        case .boy:
+            return "따뜻한 위로와 지지가 필요하다면?\n친구에게 마음 솔직하게 말해보아요!"
         }
     }
 
     var backgroundColorHex: String {
         switch self {
-        case .priest: return "#F2F2F2"
+        case .girl: return "#F2F2F2"
         case .nun: return "#F0ECFA"
         case .monk: return "#F5EFD2"
-        case .pastor: return "#E6F0DC"
+        case .boy: return "#E6F0DC"
         }
     }
 
